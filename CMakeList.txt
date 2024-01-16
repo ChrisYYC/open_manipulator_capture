@@ -1,0 +1,58 @@
+cmake_minimum_required(VERSION 3.0.2)
+project(capture)
+
+set(OpenCV_DIR /usr/include/opencv4/opencv2/core)
+set(ARUCO_INCLUDE_DIRS /usr/include/opencv4/opencv2/aruco)
+set(Eigen3_INCLUDE_DIRS /usr/include/eigen3)
+
+
+find_package(Eigen3 REQUIRED)
+find_package(OpenCV REQUIRED)
+find_package(OpenCV REQUIRED aruco)
+find_package(moveit_core REQUIRED)
+find_package(moveit_ros_planning_interface REQUIRED)
+find_package(catkin REQUIRED COMPONENTS
+  roscpp
+  rospy
+  std_msgs
+  sensor_msgs
+  cv_bridge
+)
+
+catkin_package(
+#  INCLUDE_DIRS include
+#  LIBRARIES savepng
+#  CATKIN_DEPENDS roscpp rospy std_msgs
+#  DEPENDS system_lib
+)
+
+include_directories(
+# include
+  ${catkin_INCLUDE_DIRS}
+  ${ARUCO_INCLUDE_DIRS}
+  ${Eigen3_INCLUDE_DIRS}
+  #/usr/include/eigen3
+  ${moveit_core_INCLUDE_DIRS}
+  ${moveit_ros_planning_interface_INCLUDE_DIRS}
+)
+
+
+add_executable(capture src/capture.cpp)
+target_link_libraries(capture
+    ${catkin_LIBRARIES} 
+    ${OpenCV_LIBRARIES}
+    ${ARUCO_LIBRARY_DIRS}
+    ${Eigen3_LIBRARIES}
+    ${moveit_core_LIBRARIES}
+    ${moveit_ros_planning_interface_LIBRARIES}
+)
+
+add_executable(movetest src/movetest.cpp)
+target_link_libraries(movetest
+    ${catkin_LIBRARIES} 
+    ${OpenCV_LIBRARIES}
+    ${ARUCO_LIBRARY_DIRS}
+    ${Eigen3_LIBRARIES}
+    ${moveit_core_LIBRARIES}
+    ${moveit_ros_planning_interface_LIBRARIES}
+)
